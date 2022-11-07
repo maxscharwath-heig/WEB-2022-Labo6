@@ -63,15 +63,25 @@ class Renderer {
     // Draw the "turning left" debug line
     if (entity.isTurningLeft) {
       this.context.beginPath();
-      this.context.arc(0, -steeringRadius,
-        steeringRadius, (Math.PI * 1) / 4, (Math.PI * 3) / 4);
+      this.context.arc(
+        0,
+        -steeringRadius,
+        steeringRadius,
+        (Math.PI * 1) / 4,
+        (Math.PI * 3) / 4,
+      );
       this.context.stroke();
     }
     // Draw the "turning right" debug line
     if (entity.isTurningRight) {
       this.context.beginPath();
-      this.context.arc(0, steeringRadius,
-        steeringRadius, (Math.PI * 5) / 4, (Math.PI * 7) / 4);
+      this.context.arc(
+        0,
+        steeringRadius,
+        steeringRadius,
+        (Math.PI * 5) / 4,
+        (Math.PI * 7) / 4,
+      );
       this.context.stroke();
     }
   }

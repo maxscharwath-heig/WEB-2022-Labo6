@@ -148,7 +148,15 @@ export class Game extends Map {
         this.delete(rocket.id);
         this.messageListener(new Message('delete', rocket.id));
       } else {
-        // TODO: detect colisions between rockets and vehicles
+        for (const vehicle of this.vehicles()) {
+          if (collision(vehicle.x, vehicle.y, rocket.x, rocket.y, collisionRadius)) {
+            vehicle.health -= 5;
+            this.delete(rocket.id);
+            this.messageListener(new Message('delete', rocket.id));
+            this.messageListener(new Message('set', vehicle));
+            break;
+          }
+        }
       }
     }
   }

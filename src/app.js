@@ -19,5 +19,12 @@ requestAnimationFrame(loop);
 
 // Initialize server connection
 const socket = new WebSocket('ws://localhost:3000/');
-// TODO: Send the keyboard messages to the server
-// TODO: Handle the message comming from the server
+socket.addEventListener('message', (event) => {
+  const message = codec.decode(event.data);
+  replica.onMessage(message);
+});
+
+keyboard((key) => {
+  const data = codec.encode(key);
+  socket.send(data);
+});
