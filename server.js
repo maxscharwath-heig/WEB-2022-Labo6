@@ -9,10 +9,7 @@ expressWs(app);
 
 // The sockets of the connected players
 const sockets = [];
-const codec = new Codec({
-  Vehicle,
-  Rocket,
-});
+const codec = new Codec();
 
 // Initialize the game
 const game = new Game((message) => {
@@ -42,17 +39,14 @@ app.use('/dist', express.static('dist'));
 
 // Websocket game events
 app.ws('/', (socket) => {
-  // TODO: create a player for each websocket connection
-  // TODO: handle keyboard messages comming from the connected browsers
-  // TODO: ensure that the player quit the game when the connection closes
   sockets.push(socket);
   const id = game.join();
   socket.on('close', () => {
+    sockets = sockets.filter(s => s !== socket);
     game.quit(id);
   });
   socket.on('message', (data) => {
-    const message = codec.decode(data);
-    game.onMessage(id, message);
+    game.onMessage(id, codec.decode(data));
   });
 });
 

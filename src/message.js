@@ -13,7 +13,7 @@ class Codec {
 
   decode(string) {
     const data = JSON.parse(string);
-    if (this.types[data.type]) {
+    if (this.types?.[data.type]) {
       return new Message(data.action, Object.assign(new this.types[data.type](), data.object));
     }
     return new Message(data.action, data.object);
