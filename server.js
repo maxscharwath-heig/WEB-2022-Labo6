@@ -2,13 +2,12 @@ import express from 'express';
 import expressWs from 'express-ws';
 import { Game } from './src/game.js';
 import { Codec } from './src/message.js';
-import { Rocket, Vehicle } from './src/model.js';
 
 const app = express();
 expressWs(app);
 
 // The sockets of the connected players
-const sockets = [];
+let sockets = [];
 const codec = new Codec();
 
 // Initialize the game
@@ -42,7 +41,7 @@ app.ws('/', (socket) => {
   sockets.push(socket);
   const id = game.join();
   socket.on('close', () => {
-    sockets = sockets.filter(s => s !== socket);
+    sockets = sockets.filter((s) => s !== socket);
     game.quit(id);
   });
   socket.on('message', (data) => {
@@ -50,4 +49,6 @@ app.ws('/', (socket) => {
   });
 });
 
-app.listen(3000);
+app.listen(3000, '0.0.0.0', () => {
+  console.log('Example app listening on port 3000!');
+});

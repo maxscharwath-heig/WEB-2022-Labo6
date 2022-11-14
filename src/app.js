@@ -18,7 +18,7 @@ function loop() {
 requestAnimationFrame(loop);
 
 // Initialize server connection
-const socket = new WebSocket('ws://localhost:3000/');
+const socket = new WebSocket(`ws://${window.location.host}`);
 socket.addEventListener('message', (event) => {
   const message = codec.decode(event.data);
   replica.onMessage(message);

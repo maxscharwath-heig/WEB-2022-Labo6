@@ -98,6 +98,9 @@ export class Game extends Map {
    */
   onMessage(id, message) {
     const vehicle = this.get(id);
+    if (!vehicle) {
+      return;
+    }
     const isKeydownEvent = message.action === 'keydown';
     switch (message.object) {
       case keysValues.arrowLeft:
@@ -153,7 +156,12 @@ export class Game extends Map {
             vehicle.health -= 5;
             this.delete(rocket.id);
             this.messageListener(new Message('delete', rocket.id));
-            this.messageListener(new Message('set', vehicle));
+            if (vehicle.health <= 0) {
+              this.delete(vehicle.id);
+              this.messageListener(new Message('delete', vehicle.id));
+            } else {
+              this.messageListener(new Message('set', vehicle));
+            }
             break;
           }
         }
